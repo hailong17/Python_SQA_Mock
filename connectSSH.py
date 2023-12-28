@@ -26,13 +26,13 @@ class OtbrSshCommandRunner():
     def __init__(self, host, port, username, password, sudo=None, prefix = True):
         import paramiko
 
-        self.__host = host
-        self.__port = port
-        self.__sudo = sudo
+        self.__host     = host
+        self.__port     = port
+        self.__sudo     = sudo
         self.__username = username
         self.__password = password
-        self.__prefix = prefix
-        self.__ssh = paramiko.SSHClient()
+        self.__prefix   = prefix
+        self.__ssh      = paramiko.SSHClient()
         self.__ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
         self.__line_read_callback = None
@@ -87,12 +87,12 @@ class OtbrSshCommandRunner():
     def send_cmd(self, cmd: str, timeout: float):
         try:
             recv_data = ''
-            cmd_out = ''
+            cmd_out   = ''
             print("\r\ncmd: {}".format(cmd))
             self.channel.send(cmd + "\n")
             time.sleep(timeout-1)
             recv_data =  self.channel.recv(self.__maxByte).decode('utf-8')
-            cmd_out += str(recv_data)
+            cmd_out  += str(recv_data)
             print("cmd_out", cmd_out)
         except:
             print('Socket disconnected.')
@@ -100,17 +100,17 @@ class OtbrSshCommandRunner():
 
     def send_cmd_expect(self, cmd: str, expectStr: str, timeout: float, breakTime: float):
         print("\r\n[{}]cmd: {}".format(round(time.time(),2),cmd))
-        recv_data = ''
-        cmd_out = ''
-        result = False
+        recv_data   = ''
+        cmd_out     = ''
+        result      = False
         self.channel.send(cmd + "\n")
-        startTime = time.time()
+        startTime   = time.time()
         elapsedTime = 0
         while(timeout > time.time() - startTime):
             time.sleep(1)
             if self.channel.recv_ready():
                 recv_data = self.channel.recv(self.__maxByte).decode('utf-8')
-                cmd_out += str(recv_data)
+                cmd_out  += str(recv_data)
                 if expectStr in recv_data:
                     # wait cmd finish
                     if breakTime:
@@ -121,7 +121,7 @@ class OtbrSshCommandRunner():
                         if self.channel.recv_ready():
                             try:
                                 recv_data = self.channel.recv(self.__maxByte).decode('utf-8')
-                                cmd_out += str(recv_data)
+                                cmd_out  += str(recv_data)
                             except:
                                 pass
                     result = True
@@ -131,15 +131,15 @@ class OtbrSshCommandRunner():
         return result, str(cmd_out), elapsedTime
 
     def recv(self, timeout: float):
-        data_out = ''
-        startTime = time.time()
+        data_out    = ''
+        startTime   = time.time()
         elapsedTime = 0
         while(timeout > elapsedTime):
             time.sleep(0.5)
             if self.channel.recv_ready():
                 recv_data = self.channel.recv(self.__maxByte).decode('utf-8')
                 data_out += str(recv_data)
-            elapsedTime = time.time() - startTime
+            elapsedTime   = time.time() - startTime
         print("elapsedTime: ", elapsedTime)
         return str(data_out)
 
@@ -188,9 +188,9 @@ class OtbrSshCommandRunner():
         self.channel.settimeout(10)
 
 if __name__ == "__main__":
-    host = "192.168.1.178"
-    port = 22
-    username = "ubuntu"
-    password = "solutions"
+    host        = "192.168.1.178"
+    port        = 22
+    username    = "raspi"
+    password    = "abc"
     cmd_handler = OtbrSshCommandRunner(host, port, username, password)
     cmd_handler.send_cmd(cmd="sudo ls -la", timeout=2)
