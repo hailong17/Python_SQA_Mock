@@ -45,7 +45,7 @@ class TelnetHostUtil(telnetlib.Telnet):
             self.read_until(self._hostLoginName + "@", 5)
             self.log('Host [' + self._hostLoginName + '] login succeeded!')
             return 'success'
-        except EOFError, IOError:
+        except EOFError:
             self.log('Socket disconnected.')
             return 'conn_failure'
 
@@ -65,7 +65,7 @@ class TelnetHostUtil(telnetlib.Telnet):
                       "] not found. Original prints:"
                 # self.log(buf)
                 return msg + "\n" + buf
-        except EOFError, IOError:
+        except EOFError:
             self.log('Socket disconnected.')
             return 'conn_failure'
 
@@ -75,7 +75,7 @@ class TelnetHostUtil(telnetlib.Telnet):
         #try:
         self.log("Sending cmd [" + cmd + "]...", hide)
         self.write(cmd + "\r\n")
-        print("BUG Befor:")
+        print("BUG Before:")
         buf = self.read_until('Nonsense', timeout)
         print("BUG After:", buf)
         return buf
@@ -83,16 +83,3 @@ class TelnetHostUtil(telnetlib.Telnet):
         #    self.log('Socket disconnected.')
         #    return ''
 
-sshRaspi = TelnetHostUtil
-hostIp = "192.168.1.1."
-hostPort = 23
-appPath = "local/path/"
-hostName = "ubuntu"
-hostPasswd = "1"
-print('Delete device.tbl and config.def file ')
-sshRaspi.open_host_connection(hostIp, hostPort)
-sshRaspi.host_login(hostName, hostPasswd)
-sshRaspi.host_send('cd {}'.format(appPath), 2)
-sshRaspi.host_send('sudo rm device.tbl',1)
-sshRaspi.host_send('sudo rm config.def',1)
-result = sshRaspi.host_send('ls',1)
