@@ -192,5 +192,5 @@ if __name__ == "__main__":
     port        = 22
     username    = "pi"
     password    = "pi"
-    cmd_handler = OtbrSshCommandRunner(host, port, username, password)
+    cmd_handler = OtbrSshCommandRunner(host, port, username, password) # ssh pi@192.168.124.125
     cmd_handler.send_cmd(cmd="ls -la", timeout=5)
