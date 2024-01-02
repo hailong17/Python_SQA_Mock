@@ -9,13 +9,13 @@ pipeline {
         }
         stage('Build') {
             steps {
-                echo "Hello"
+                bat 'python checkpi.py'
+                bat 'python connectSSH.py'
             }
         }
         stage('Test') {
             steps {
-                echo "Current Directory: ${pwd()}"
-                sh 'python3 checkpi.py'
+                echo "This job has been tested"
             }
         }
         stage('Deliver') {
