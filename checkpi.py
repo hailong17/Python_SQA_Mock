@@ -1,6 +1,11 @@
 import paramiko
 import time
 
+import logging
+
+logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.warning('This will get logged to a file')
+
 class SSHConnection:
     def __init__(self, server, username, password):
         self.server = server
