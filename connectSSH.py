@@ -188,7 +188,7 @@ class OtbrSshCommandRunner():
         self.channel.settimeout(10)
 
 if __name__ == "__main__":
-    host        = "192.168.124.22"
+    host        = "192.168.124.125"
     port        = 22
     username    = "pi"
     password    = "pi"
