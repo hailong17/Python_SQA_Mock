@@ -188,9 +188,9 @@ class OtbrSshCommandRunner():
         self.channel.settimeout(10)
 
 if __name__ == "__main__":
-    host        = "192.168.1.178"
+    host        = "192.168.124.22"
     port        = 22
-    username    = "raspi"
-    password    = "abc"
+    username    = "pi"
+    password    = "pi"
     cmd_handler = OtbrSshCommandRunner(host, port, username, password)
-    cmd_handler.send_cmd(cmd="sudo ls -la", timeout=2)
+    cmd_handler.send_cmd(cmd="ls -la", timeout=5)
