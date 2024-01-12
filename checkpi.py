@@ -33,7 +33,7 @@ class SSHConnection:
         self.client.close()
 
 if __name__ == "__main__":
-    ssh = SSHConnection("192.168.124.125", "pi", "pi")
+    ssh = SSHConnection("192.168.19.125", "pi", "pi")
     ssh.connect()
     print(ssh.send_command("ls"))
     ssh.send_command("mkdir aaa")
